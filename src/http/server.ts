@@ -11,7 +11,7 @@ export class Http {
     routes: RouteDefinition[] = [];
 
     use(){
-
+        
     }
 
     get(path: string, ...callbacks: RouteHandler[]){
@@ -69,7 +69,8 @@ export class Http {
         try{
             const text = await readBuf(conn);
             const lines = splitLines(text);
-        
+            
+            
             const fl = lines[0];
             const { method, path, version } = getMethodAndUrl(fl);
 

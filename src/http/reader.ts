@@ -28,7 +28,7 @@ export function getMethodAndUrl(line: string): { method: Method, path: string, v
     if(arr.length < 3) throw new Error("method, path, version is missing.");
     if(!checkMethod(arr[0])) throw new Error("method is invalid.");
     
-    return { method: arr[0] as Method, path: arr[1], version: arr[2] };
+    return { method: arr[0], path: arr[1], version: arr[2] };
 }
 
 export function checkMethod(method: string): method is Method {
