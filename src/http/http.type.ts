@@ -8,8 +8,6 @@ export enum Method {
     DELETE = "DELETE",
 }
 
-//export type Method ="GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
 export enum HttpStatus {
     OK = "200 OK",
     CREATED = "201 Created",
@@ -30,6 +28,11 @@ export type RouteHandler = (req: Request, res: HttpResponse, next: () => Promise
 
 export type RouteDefinition = {
     method: Method,
+    path: string,
+    callbacks: RouteHandler[]
+};
+
+export type MiddlewaresDefinition = {
     path: string,
     callbacks: RouteHandler[]
 }
