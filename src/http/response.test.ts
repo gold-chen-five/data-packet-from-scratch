@@ -47,7 +47,7 @@ Deno.test("Test HttpResponse", () => {
         }
 
         assertEquals(actualResponse.httpStatus, expects[index].status);
-        assertEquals(actualResponse.httpContentType, expects[index].contentType);
+        assertEquals(actualResponse.httpHeaders.get("Content-Type"), expects[index].contentType);
         assertEquals(actualResponse.httpBody, expects[index].body);
         assertEquals(actualResponse.httpVersion, expects[index].version);
     }

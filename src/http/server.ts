@@ -10,6 +10,7 @@ import { HttpStatus, Request, RouteDefinition, Method, RouteHandler, Middlewares
 type Path = string;
 
 export class Http {
+    listener: Deno.TcpListener | undefined = undefined;
     routes: RouteDefinition[] = [];
     middlewares: MiddlewaresDefinition[] = [];
     
@@ -39,17 +40,22 @@ export class Http {
         this.addRoute(Method.PATCH, path, callbacks);
     }
 
-    delete(path: Path, ...callbacks: RouteHandler[]){
+    delete(path: Path, ...callbacks: RouteHandler[]) {
         this.addRoute(Method.DELETE, path, callbacks);
     }
 
+    close() {
+        if(!this.listener) return;
+        this.listener.close();
+    }
+
     async listen(port: number) {
-        const listener = Deno.listen({
+        this.listener = Deno.listen({
             port,
             transport: "tcp"
         });
     
-        for await (const conn of listener){
+        for await (const conn of this.listener){
             this.handleConn(conn);
         }
     }

@@ -1,7 +1,8 @@
 {
   "tasks": {
     "dev": "deno run --watch src/main.ts",
-    "compile": "deno compile --allow-net --allow-read src/main.ts"
+    "compile": "deno compile --allow-net --allow-read src/main.ts",
+    "test:e2e": "deno test --allow-net src/e2e/"
   },
   "imports": {
     "@/": "./src/",

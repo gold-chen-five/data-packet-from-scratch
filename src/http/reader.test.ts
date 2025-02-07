@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { getHeaders, checkMethod } from "@/http/reader.ts";
 
-Deno.test("test getHeaders", () => {
+Deno.test("Test getHeaders", () => {
     const lines = [
         "accept-encoding: gzip, deflate, br",
         "Accept: */*",
@@ -25,7 +25,7 @@ Deno.test("test getHeaders", () => {
     }
 });
 
-Deno.test("test is Method", () => {
+Deno.test("Test is Method", () => {
     const isMethod = checkMethod("get");
     const isMethod2 = checkMethod("GET");
     
