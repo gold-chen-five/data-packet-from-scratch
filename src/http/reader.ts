@@ -1,4 +1,6 @@
 import { Method } from "@/http/http.type.ts";
+import { HttpError } from "@/http/response.ts";
+import { HttpStatus } from "@/http/http.type.ts";
 
 export async function readBuf(conn: Deno.Conn): Promise<string> {
     const decoder = new TextDecoder();
@@ -18,15 +20,15 @@ export async function readBuf(conn: Deno.Conn): Promise<string> {
 
 export function splitLines(text: string): string[] {
     const lines = text.split("\r\n");
-    if(lines.length < 1 ) throw new Error("http packet is empty");
+    if(lines.length < 1 ) throw new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "http packet is empty");
     return lines;
 }
 
 // first line: GET / HTTP/1.1
 export function getMethodAndUrl(line: string): { method: Method, path: string, version: string } {
     const arr = line.split(" ");
-    if(arr.length < 3) throw new Error("method, path, version is missing.");
-    if(!checkMethod(arr[0])) throw new Error("method is invalid.");
+    if(arr.length < 3) throw new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "method, path, version is missing.");
+    if(!checkMethod(arr[0])) throw new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "method is invalid.");
     
     return { method: arr[0], path: arr[1], version: arr[2] };
 }

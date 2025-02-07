@@ -4,7 +4,7 @@ import {
     getMethodAndUrl, 
     getHeaders 
 } from "@/http/reader.ts";
-import { HttpResponse } from "@/http/response.ts";
+import { HttpResponse, HttpError } from "@/http/response.ts";
 import { HttpStatus, Request, RouteDefinition, Method, RouteHandler, MiddlewaresDefinition } from "@/http/http.type.ts";
 
 type Path = string;
@@ -79,7 +79,7 @@ export class Http {
             }
 
             const route = this.routes.find(r => (r.path === path && r.method === method));
-            if(!route) throw new Error("no define route or method");
+            if(!route) throw new HttpError(HttpStatus.NOT_FOUND, "no define route or method");
 
             const routeCallbacks = route.callbacks;
             await this.runCallbacks(routeCallbacks, request, res);
@@ -88,9 +88,10 @@ export class Http {
             await conn.write(response);
             conn.close();
         } catch(err){
+            const {status, message} = err as HttpError;
             const res = new HttpResponse();
-            const response = res.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .send((err as Error).message)
+            const response = res.status(status)
+                                .send(message)
                                 .get();
     
             await conn.write(response);

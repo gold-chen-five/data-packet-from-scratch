@@ -41,7 +41,7 @@ export class HttpResponse {
             `Content-Length: ${new TextEncoder().encode(this.httpBody).length}\r\n` +
             "\r\n" +
             this.httpBody;
-            
+
         return this.encode(res);
     }
 
@@ -49,5 +49,13 @@ export class HttpResponse {
         const encoder = new TextEncoder();
         const data = encoder.encode(text);
         return data;
+    }
+}
+
+export class HttpError extends Error {
+    status: HttpStatus;
+    constructor(status: HttpStatus, message: string){
+        super(message);
+        this.status = status;
     }
 }
