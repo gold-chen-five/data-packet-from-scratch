@@ -1,11 +1,10 @@
-
 import { http } from "@/http/index.ts";
 
 const app = http();
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   console.log("use");
-})
+});
 
 app.get("/", (_, res, next) => {
   res.send("hello world");
